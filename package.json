@@ -3,12 +3,31 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@fontsource/roboto": "^5.0.14",
+    "@mui/icons-material": "^6.0.1",
+    "@mui/material": "^6.0.0",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.18",
+    "@mui/x-charts": "^7.14.0",
+    "@mui/x-date-pickers": "^7.15.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.7.3",
+    "bootstrap": "^5.3.3",
+    "dayjs": "^1.11.13",
     "react": "^18.3.1",
+    "react-bootstrap": "^2.10.4",
+    "react-datepicker": "^7.3.0",
     "react-dom": "^18.3.1",
+    "react-fast-marquee": "^1.6.5",
+    "react-qr-code": "^2.0.15",
+    "react-qr-reader": "^2.2.1",
+    "react-qr-scanner": "^1.0.0-alpha.11",
+    "react-router-dom": "^6.26.1",
     "react-scripts": "5.0.1",
+    "styled-components": "^6.1.12",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -34,5 +53,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "ajv": "^7.2.4"
   }
 }
