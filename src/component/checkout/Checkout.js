@@ -269,7 +269,7 @@ export default function Checkout() {
   };
   return (
     <ThemeProvider theme={showCustomTheme ? checkoutTheme : defaultTheme}>
-        <StickyFooter/>
+        {/*<StickyFooter/>*/}
       <CssBaseline />
       <Grid container sx={{ height: { xs: '100%', sm: '100dvh' } }}>
         <Grid

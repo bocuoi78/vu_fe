@@ -1,7 +1,7 @@
-import axios from "axios";
+import request from '../util/Request';
 
-export const getStudentList = () => axios.get("http://localhost:8080/api/v1/student/get-all").then(res=>{return res}).catch(e=>{return e});
-export const getStudent = (studentId) => axios.get("http://localhost:8080/api/v1/student/" + studentId)
+export const getStudentList = () => request.get("/student/get-all").then(res=>{return res}).catch(e=>{return e});
+export const getStudent = (studentId) => request.get("/student/" + studentId)
     .then(res=>{return res}).catch(e=>{return e});
-export const updateStudent = (data) => axios.post("http://localhost:8080/api/v1/student", data)
+export const updateStudent = (data) => request.post("/student", data)
     .then(res=>{return res}).catch(e=>{return e});

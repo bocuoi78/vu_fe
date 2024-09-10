@@ -32,7 +32,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 1000,
+    width: '80%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -230,7 +230,7 @@ export default function EditModal({data, fetchData}) {
                                 onChange={handleDataChange}
                             />
                         </FormGrid>
-                        <FormGrid size={{xs: 12}}>
+                        <FormGrid size={{xs: 12, md: 6}}>
                             <FormLabel htmlFor="uniformGender" required>
                                 Loại áo
                             </FormLabel>
@@ -245,7 +245,7 @@ export default function EditModal({data, fetchData}) {
                                 <FormControlLabel value={false} control={<Radio/>} label="Nữ (Áo ôm)"/>
                             </RadioGroup>
                         </FormGrid>
-                        <FormGrid size={{xs: 12}}>
+                        <FormGrid size={{xs: 12, md: 6}}>
                             <FormLabel htmlFor="uniformSize" required>
                                 Kích thước áo
                             </FormLabel>
@@ -268,11 +268,11 @@ export default function EditModal({data, fetchData}) {
                         <FormGrid size={{xs: 12}}>
                             <FormControlLabel control={<Checkbox name="received" checked={editData.received} onChange={handleCheckboxChange}/>} label="Đã nhận áo" />
                         </FormGrid>
-                        <Stack spacing={2} direction="row" sx={{alignSelf: "center"}}>
+                        <Stack spacing={2} direction="row" sx={{alignSelf: "center", width: { xs: 12, md: 6 }}}>
                             <Button
                                 variant="contained"
                                 color="inherit"
-                                sx={{ alignSelf: 'start', width: { xs: '100%', sm: 'auto' } }}
+                                sx={{ alignSelf: 'start', width: { xs: 12, md: 6 } }}
                                 onClick={handleClose}
                             >
                                 Hủy
@@ -280,7 +280,7 @@ export default function EditModal({data, fetchData}) {
                             <Button
                                 variant="contained"
                                 color="primary"
-                                sx={{ alignSelf: 'start', width: { xs: '100%', sm: 'auto' } }}
+                                sx={{ alignSelf: 'start', width: { xs: 12, md: 6 } }}
                                 onClick={handleSave}
                             >
                                 Lưu lại

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 class Request {
     constructor() {
-        this.baseUrl = 'http://localhost:8080/api/v1'
+        this.baseUrl = 'http://192.168.1.125:8080/api/v1'
         const codeMessage = {
             'The server successfully returned the requested data. ': 200,
             'Create or modify data successfully. ': 201,

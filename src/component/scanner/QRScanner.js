@@ -10,7 +10,7 @@ const QRScanner = (props) => {
     };
 
     let handleError = err => {
-        // alert(err);
+        alert(err);
     };
     return (
         <div>
@@ -20,6 +20,7 @@ const QRScanner = (props) => {
                 onScan={handleScan}
                 style={{ width: "100%" }}
                 facingMode="environment"
+                // facingMode="user"
             />
             <p>{result}</p>
         </div>

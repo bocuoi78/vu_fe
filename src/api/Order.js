@@ -1,8 +1,8 @@
-import axios from "axios";
+import request from '../util/Request';
 
-export const getOrderList = (data) => axios.post("http://localhost:8080/api/v1/order/get-list", data)
+export const getOrderList = (data) => request.post("/order/get-list", data)
     .then(res=>{return res}).catch(e=>{return e});
-export const updateOrder = (data) => axios.post("http://localhost:8080/api/v1/order", data)
+export const updateOrder = (data) => request.post("/order", data)
     .then(res=>{return res}).catch(e=>{return e});
-export const deleteOrder = (orderId) => axios.delete("http://localhost:8080/api/v1/order/" + orderId)
+export const deleteOrder = (orderId) => request.delete("/order/" + orderId)
     .then(res=>{return res}).catch(e=>{return e});
