@@ -11,6 +11,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import LogoutIcon from '@mui/icons-material/Logout';
+import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import {NavLink} from "react-router-dom";
 import SignOutModal from "../sign-out/SignOutModal";
 
@@ -28,12 +29,12 @@ export const mainListItems = (
             </ListItemIcon>
             <ListItemText primary="Orders" />
         </ListItemButton>
-        {/*<ListItemButton as={NavLink} to={"/customers"}>*/}
-        {/*    <ListItemIcon>*/}
-        {/*        <PeopleIcon />*/}
-        {/*    </ListItemIcon>*/}
-        {/*    <ListItemText primary="Customers" />*/}
-        {/*</ListItemButton>*/}
+        <ListItemButton as={NavLink} to={"/check"}>
+            <ListItemIcon>
+                <QrCodeScannerIcon />
+            </ListItemIcon>
+            <ListItemText primary="QR Scan" />
+        </ListItemButton>
         <ListItemButton as={NavLink} to={"/reports"}>
             <ListItemIcon>
                 <BarChartIcon />

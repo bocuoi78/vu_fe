@@ -47,49 +47,45 @@ const FormGrid = styled(Grid)(() => ({
     flexDirection: 'column',
 }));
 
-export default function EditModal({data, fetchData}) {
+export default function CheckModal({orderId}) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const [editData, setEditData] = React.useState(data)
-
-    const handleDataChange = (event) => {
-        const { name, value } = event.target;
-        setEditData((prevData) => ({
-            ...prevData,
-            [name]: value
-        }));
-    };
-
-    const handleCheckboxChange = (event) => {
-        setEditData((prevData) => ({
-            ...prevData,
-            received: event.target.checked
-        }));
-    };
-
-    const  handleBirthdayChange = (newDate) => {
-        setEditData((prevData) => ({
-            ...prevData,
-            "birthday": newDate
-        }));
-    }
+    const [data, setData] = React.useState({
+        studentId: "",
+        studentName: "",
+        studentClazz: "",
+        birthday: "",
+        studentGender: true,
+        studentPhone: "",
+        studentEmail: "",
+        uniformGender: true,
+        uniformSize: "",
+        paid: false,
+        transfer: false,
+        received: false
+    })
 
     const handleCheckClick = async () => {
-        const studentId = data.id? data.id : ''
         try {
-            const response = await api.getStudent(studentId)
+            const response = await api.getOrder(orderId)
             if (response && response.data && response.data.status === "OK") {
-                setEditData({
-                    studentId : response.data.data.id,
-                    studentName : response.data.data.fullname,
-                    studentClazz : response.data.data.clazz,
-                    birthday : response.data.data.birthday,
-                    studentGender : response.data.data.gender,
-                    studentPhone : response.data.data.phone,
-                    studentEmail :response.data.data.email
+                setData({
+                    studentId: response.data.data.studentId,
+                    studentName: response.data.data.studentName,
+                    studentClazz: response.data.data.studentClazz,
+                    birthday: response.data.data.birthday,
+                    studentGender: response.data.data.studentGender,
+                    studentPhone: response.data.data.studentPhone,
+                    studentEmail: response.data.data.studentEmail,
+                    uniformGender: response.data.data.uniformGender,
+                    uniformSize: response.data.data.uniformSize,
+                    paid: response.data.data.paid,
+                    transfer: response.data.data.transfer,
+                    received: response.data.data.received
                 })
+                handleOpen()
             }
         } catch (e) {
             console.log(e)
@@ -98,24 +94,15 @@ export default function EditModal({data, fetchData}) {
 
     const handleSave = async () => {
         try {
-            await api.updateStudent({
-                id: editData.studentId,
-                fullname: editData.studentName,
-                clazz: editData.studentClazz,
-                birthday: editData.birthday,
-                gender: editData.studentGender,
-                phone: editData.studentPhone,
-                email: editData.studentEmail
-            })
             await api.updateOrder({
-                id : editData.id,
-                studentId : editData.studentId,
-                uniformGender : editData.uniformGender,
-                uniformSizeName : editData.uniformSize,
-                paid : editData.paid,
-                received : editData.received
+                id: orderId,
+                studentId: data.studentId,
+                uniformGender: data.uniformGender,
+                uniformSizeName: data.uniformSize,
+                paid: data.paid,
+                transfer: data.transfer,
+                received: true
             })
-            fetchData()
             handleClose()
         } catch (e) {
             console.log(e)
@@ -124,15 +111,35 @@ export default function EditModal({data, fetchData}) {
 
     return (
         <React.Fragment>
-            <Chip icon={<BorderColorSharpIcon/>} label="Chỉnh sửa" onClick={handleOpen}/>
+            <Button variant="contained" onClick={handleCheckClick}>Kiểm tra</Button>
             <Modal
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
+                sx={{
+                    position:'absolute',
+                    top:'10%',
+                    left:'10%',
+                    overflow:'scroll',
+                    height:'100%',
+                    display:'block',
+                }}
             >
                 <Box sx={style}>
                     <Grid container spacing={3}>
+                        <FormGrid size={{ xs: 12, md: 6 }}>
+                            <FormLabel htmlFor="uuid" required>
+                                uuid
+                            </FormLabel>
+                            <OutlinedInput
+                                id="uuid"
+                                name="uuid"
+                                size="small"
+                                value={orderId}
+                                disabled
+                            />
+                        </FormGrid>
                         <FormGrid size={{ xs: 12, md: 6 }}>
                             <FormLabel htmlFor="studentId" required>
                                 Mã sinh viên
@@ -140,15 +147,10 @@ export default function EditModal({data, fetchData}) {
                             <OutlinedInput
                                 id="studentId"
                                 name="studentId"
-                                placeholder="Mã sinh viên"
-                                required
                                 size="small"
-                                value={editData.studentId? editData.studentId : ""}
-                                onChange={handleDataChange}
+                                value={data.studentId}
+                                disabled
                             />
-                        </FormGrid>
-                        <FormGrid size={{ xs: 12, md: 6 }}>
-                            <Button variant="contained" onClick={handleCheckClick}>Tra cứu</Button>
                         </FormGrid>
                         <FormGrid size={{ xs: 12, md: 8 }}>
                             <FormLabel htmlFor="fullname" required>
@@ -157,54 +159,46 @@ export default function EditModal({data, fetchData}) {
                             <OutlinedInput
                                 id="studentName"
                                 name="studentName"
-                                placeholder="Họ và Tên"
-                                required
                                 size="small"
-                                value={editData.studentName? editData.studentName : ''}
-                                onChange={handleDataChange}
+                                value={data.studentName}
+                                disabled
                             />
                         </FormGrid>
                         <FormGrid size={{ xs: 12, md: 4 }}>
-                            <FormLabel htmlFor="fullname" required>
+                            <FormLabel htmlFor="studentClazz" required>
                                 Lớp
                             </FormLabel>
                             <OutlinedInput
                                 id="studentClazz"
                                 name="studentClazz"
-                                placeholder="Lớp"
-                                required
                                 size="small"
-                                value={editData.studentClazz? editData.studentClazz : ''}
-                                onChange={handleDataChange}
+                                value={data.studentClazz}
+                                disabled
                             />
                         </FormGrid>
                         <FormGrid size={{ xs: 12, md: 6 }}>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DemoContainer components={['DatePicker']}>
-                                    <DatePicker
-                                        label="Ngày sinh"
-                                        name="birthday"
-                                        value={dayjs(editData.birthday? editData.birthday : "")}
-                                        format="DD-MM-YYYY"
-                                        onChange={handleBirthdayChange}
-                                    />
-                                </DemoContainer>
-                            </LocalizationProvider>
+                            <FormLabel htmlFor="birthday" required>
+                                Ngày sinh
+                            </FormLabel>
+                            <OutlinedInput
+                                id="birthday"
+                                name="birthday"
+                                size="small"
+                                value={data.birthday}
+                                disabled
+                            />
                         </FormGrid>
                         <FormGrid size={{ xs: 12, md: 6 }}>
                             <FormLabel htmlFor="studentGender" required>
                                 Giới tính
                             </FormLabel>
-                            <RadioGroup
-                                row
-                                aria-labelledby="demo-radio-buttons-group-label"
-                                value={editData.studentGender? editData.studentGender : ""}
+                            <OutlinedInput
+                                id="studentGender"
                                 name="studentGender"
-                                onChange={handleDataChange}
-                            >
-                                <FormControlLabel value={true} control={<Radio />} label="Nam" />
-                                <FormControlLabel value={false} control={<Radio />} label="Nữ" />
-                            </RadioGroup>
+                                size="small"
+                                value={data.studentGender?"Nam":"Nữ"}
+                                disabled
+                            />
                         </FormGrid>
                         <FormGrid size={{ xs: 12, md: 6 }}>
                             <FormLabel htmlFor="phone" required>
@@ -213,11 +207,9 @@ export default function EditModal({data, fetchData}) {
                             <OutlinedInput
                                 id="phone"
                                 name="studentPhone"
-                                placeholder="Số điện thoại"
-                                required
                                 size="small"
-                                value={editData.studentPhone? editData.studentPhone : ""}
-                                onChange={handleDataChange}
+                                value={data.studentPhone}
+                                disabled
                             />
                         </FormGrid>
                         <FormGrid size={{ xs: 12, md: 6 }}>
@@ -227,49 +219,47 @@ export default function EditModal({data, fetchData}) {
                             <OutlinedInput
                                 id="email"
                                 name="studentEmail"
-                                placeholder="Địa chỉ email"
-                                size="small"
-                                value={editData.studentEmail? editData.studentEmail : ""}
-                                onChange={handleDataChange}
+                                value={data.studentEmail}
+                                disabled
                             />
                         </FormGrid>
-                        <FormGrid size={{xs: 12, md: 6}}>
-                            <FormLabel htmlFor="uniformGender" required>
+                        <FormGrid size={{xs: 12, md: 4}}>
+                            <FormLabel required>
                                 Loại áo
                             </FormLabel>
-                            <RadioGroup
-                                row
-                                aria-labelledby="demo-radio-buttons-group-label"
-                                value={editData.uniformGender}
-                                name="uniformGender"
-                                onChange={handleDataChange}
-                            >
-                                <FormControlLabel value={true} control={<Radio/>} label="Nam (Áo xuông)"/>
-                                <FormControlLabel value={false} control={<Radio/>} label="Nữ (Áo ôm)"/>
-                            </RadioGroup>
+                            <OutlinedInput
+                                id="uniformType"
+                                name="uniformType"
+                                value={data.uniformGender?data.uniformSize+" Nam" : data.uniformSize+" Nữ"}
+                                disabled
+                            />
                         </FormGrid>
-                        <FormGrid size={{xs: 12, md: 6}}>
-                            <FormLabel htmlFor="uniformSize" required>
-                                Kích thước áo
+                        <FormGrid size={{xs: 12, md: 4}}>
+                            <FormLabel htmlFor="paid" required>
+                                Trạng thái thanh toán
                             </FormLabel>
-                            <RadioGroup
-                                row
-                                aria-labelledby="demo-radio-buttons-group-label"
-                                value={editData.uniformSize}
-                                name="uniformSize"
-                                onChange={handleDataChange}
-                            >
-                                <FormControlLabel value={"S"} control={<Radio/>} label="S"/>
-                                <FormControlLabel value={"M"} control={<Radio/>} label="M"/>
-                                <FormControlLabel value={"L"} control={<Radio/>} label="L"/>
-                                <FormControlLabel value={"XL"} control={<Radio/>} label="XL"/>
-                                <FormControlLabel value={"XXL"} control={<Radio/>} label="XXL"/>
-                                <FormControlLabel value={"XXXL"} control={<Radio/>} label="XXXL"/>
-                                <FormControlLabel value={"XXXXL"} control={<Radio/>} label="XXXL +"/>
-                            </RadioGroup>
+                            <OutlinedInput
+                                id="paid"
+                                name="paid"
+                                value={
+                                data.paid?
+                                    (data.transfer?"Đã chuyển khoản":"Đã đóng tiến mặt")
+                                    :
+                                    "Chưa thanh toán"
+                            }
+                                disabled
+                            />
                         </FormGrid>
-                        <FormGrid size={{xs: 12}}>
-                            <FormControlLabel control={<Checkbox name="received" checked={editData.received} onChange={handleCheckboxChange}/>} label="Đã nhận áo" />
+                        <FormGrid size={{xs: 12, md: 4}}>
+                            <FormLabel htmlFor="received" required>
+                                Trạng thái nhận
+                            </FormLabel>
+                            <OutlinedInput
+                                id="received"
+                                name="received"
+                                value={data.received?"Đã nhận":"Chưa nhận"}
+                                disabled
+                            />
                         </FormGrid>
                         <Stack spacing={2} direction="row" sx={{alignSelf: "center", width: { xs: 12, md: 6 }}}>
                             <Button
@@ -278,16 +268,18 @@ export default function EditModal({data, fetchData}) {
                                 sx={{ alignSelf: 'start', width: { xs: 12, md: 6 } }}
                                 onClick={handleClose}
                             >
-                                Hủy
+                                Thoát
                             </Button>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                sx={{ alignSelf: 'start', width: { xs: 12, md: 6 } }}
-                                onClick={handleSave}
-                            >
-                                Lưu lại
-                            </Button>
+                            {data.received?'':
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    sx={{ alignSelf: 'start', width: { xs: 12, md: 6 } }}
+                                    onClick={handleSave}
+                                >
+                                    Đã nhận áo
+                                </Button>
+                            }
                         </Stack>
                     </Grid>
                 </Box>
